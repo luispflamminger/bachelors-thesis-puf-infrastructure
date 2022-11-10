@@ -1,0 +1,118 @@
+{
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.autoBuild.run": "onFileChange",
+  "latex-workshop.latex.autoBuild.cleanAndRetry.enabled": true,
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "lualatex",
+      "tools": [
+        "lualatex",
+        "biber",
+        "lualatex",
+        "lualatex"
+      ]
+    },
+    {
+      "name": "luatex",
+      "tools": [
+        "luatex",
+        "biber",
+        "luatex",
+        "luatex"
+      ]
+    },
+    {
+      "name": "pdftex",
+      "tools": [
+        "pdftex",
+        "biber",
+        "pdftex",
+        "pdftex"
+      ]
+    }
+  ],
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux",
+    "*.bcf",
+    "*.ilg",
+    "*.bbl",
+    "*.blg",
+    "*.idx",
+    "*.ind",
+    "*.lof",
+    "*.lot",
+    "*.out",
+    "*.toc",
+    "*.acn",
+    "*.acr",
+    "*.alg",
+    "*.glg",
+    "*.glo",
+    "*.gls",
+    "*.ist",
+    "*.fls",
+    "*.log",
+    "*.nlo",
+    "*.nls*",
+    "*.run.xml",
+    "*.fdb_latexmk",
+    "thesis_main-plantuml.*"
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "lualatex",
+      "command": "lualatex",
+      "args": [
+        "-shell-escape",
+        "-synctex=1",
+        "%DOC%.tex"
+      ]
+    },
+    {
+      "name": "luatex",
+      "command": "luatex",
+      "args": [
+        "-shell-escape",
+        "-synctex=1",
+        "%DOC%.tex"
+      ]
+    },
+    {
+      "name": "pdftex",
+      "command": "pdftex",
+      "args": [
+        "-shell-escape",
+        "-synctex=1",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "biber",
+      "command": "biber",
+      "args": [
+        "%DOCFILE%"
+      ]
+    }
+  ],
+  "cSpell.words": [
+    "desynchronization",
+    "pufs",
+    "pypuf",
+    "unclonable"
+  ],
+  "gitlens.currentLine.enabled": false,
+  "gitlens.codeLens.authors.enabled": false,
+  "latex-workshop.message.information.show": true,
+  "latex-workshop.view.outline.commands": [],
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    "implementation"
+  ]
+}

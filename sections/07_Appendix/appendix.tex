@@ -1,0 +1,70 @@
+\section{Guidelines for Literature Reviews by \citeauthor*{Brocke2009}}
+\label{sec:appendix_brocke}
+
+This is a summary of the guidelines for literature reviews in the information systems field,
+proposed by \citeauthor*{Brocke2009} in \cite{Brocke2009}.
+The methodology for the literature review in this thesis is loosely based on these five-steps.
+
+\begin{enumerate}
+      \item Analyze the scope and purpose of the review by using the taxonomy on
+            literature reviews proposed in \cite{Cooper1988}. This acts as a basis for further
+            steps and helps to keep the review focused on a specific goal
+      \item Establish concepts about the topic, that are already widely known
+            and recognized in the literature. This is best done using publications like existing review articles,
+            textbooks or encyclopedias.
+      \item After having gained a good understanding of the concepts and fundamentals of the topic,
+            search terms should be devised, that can be used for the literature searching process.
+            These search terms should then be applied in the following way:
+            \begin{enumerate}
+                  \item Find all journals, which publish articles related to the topic.
+                  \item Find all databases, which include articles from those journals.
+                  \item Query these databases using keywords and search terms devised from the previously
+                        acquired knowledge.
+                        Estimate the relevance of articles by analyzing title, abstract, number of citations and recency.
+                        Include all relevant articles in the review.
+                  \item Use backward and forward search to find additional relevant literature.
+            \end{enumerate}
+      \item Analyze all collected literature and synthesize new knowledge from it.
+            This process is enabled by using a concept matrix (proposed in \cite{Webster2002}).
+            Make sure to focus on the focus and goal specified in \emph{step one}.
+      \item Create a research agenda that outlines, which questions have been answered by the
+            existing research and which topics future research should focus on.
+\end{enumerate}
+
+\section{Exact Search Strings used in Literature Review}
+\label{sec:appendix_search_strings}
+
+\textbf{IEEE Xplore}
+\begin{quote}
+      ("Document Title":physical unclonable function OR "Document Title":puf OR "Document Title":physically unclonable function) AND ("Document Title":authentication OR "Document Title":challenge response OR "Document Title":challenge-response) AND ("Document Title":protocol)
+\end{quote}
+
+\textbf{ACM Digital Library}
+\begin{quote}
+      [[Title: physical unclonable function] OR [Title: puf] OR [Title: physically unclonable function]] AND [[Title: authentication] OR [Title: challenge response] OR [Title: challenge-response]] AND [Title: protocol]
+\end{quote}
+
+\textbf{Google Scholar}
+\begin{quote}
+      intitle:protocol AND (intitle:authentication OR intitle:challenge-response OR intitle:challenge OR intitle:response) AND (intitle:puf OR intitle:physically unclonable function OR intitle:physical unclonable function)
+\end{quote}
+
+
+\newpage
+\section{Source Code for Implementation}
+\label{sec:appendix_code}
+\subsection{Pipfile}
+This pipfile can be used to easily set up the appropriate environment using pipenv.
+\lstinputlisting{implementation/Pipfile}
+
+\subsection{support.py}
+\lstinputlisting[language=python]{implementation/support.py}
+
+\subsection{server.py}
+\lstinputlisting[language=python]{implementation/server.py}
+
+\subsection{tag.py}
+\lstinputlisting[language=python]{implementation/tag.py}
+
+\subsection{test\_auth.py}
+\lstinputlisting[language=python]{implementation/test_auth.py}

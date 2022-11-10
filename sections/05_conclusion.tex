@@ -1,0 +1,40 @@
+\newpage
+\section{Conclusion}
+\label{sec:conclusion}
+
+
+The thesis was able to lay a broad theoretical foundation about concepts surrounding PUFs, their types,
+their implementations and PUF-based authentication.
+The systematic review of the existing literature on PUF-based authentication protocols
+provided an overview of the wide variety of applications, focuses, security properties
+and performance factors. Through the literature review, it became clear, that the central part of any
+infrastructure is the protocol, as it defines and limits the technical requirements of the underlying
+hardware, backend systems and databases. Initially, it was planned to develop a new protocol fitting
+the requirements of the research project. However, this goal was not realized, because the review
+showed the complexity and knowledge required for designing a secure protocol goes far beyond
+the scope of this thesis. A protocol fitting the requirements of the project was selected,
+analyzed and a prototype was implemented.
+
+When analyzing the methodology of the thesis critically, a couple of possible weak points can be identified.
+Small parts of the fundamentals section were only based on few sources, which leaves a possibility of
+incorrect and unverified information. However, the scientific quality and relevance of sources was always
+ensured and no contradicting information was encountered, making this risk small.
+When looking at the final selection of the protocol, it is possible, that the limited knowledge about
+cryptography and security has lead to a false evaluation of certain protocols.
+Additionally, the defined search string could have excluded relevant sources, opening the possibility,
+that the best protocol was not found. Looking at the implementation, the security aspects
+of the prototype were not closely examined.
+
+To conclude the thesis, another look at the research questions defined in
+section \ref{sec:research_questions} is necessary to evaluate the success of the thesis.
+\emph{RQ1} is only partially answered by the thesis. Results almost exclusively focused on the protocol.
+Other requirements for a full infrastructure, like the database implementation, the hardware required
+for supporting RFID, or the requirements of access control systems, were only partially considered.
+
+\emph{RQ2} required the implementation of a prototype and a demonstration of its
+functionality. This goal was achieved as the selected protocol was implemented using
+python and evaluated using a set of tests.
+However, the prototype has its limitations. It has not been extensively tested
+to ensure resilience against all possible types of attacks. Additionally, hardware constraints,
+like a limited number of logic gates on RFID tags and the imperfect PUF responses in the real world,
+have not been considered.

@@ -1,0 +1,124 @@
+\section{Introduction}
+\label{sec:introduction}
+
+\subsection{Motivation}
+\label{sec:motivation}
+
+This thesis is part of a research project concerned with developing an authentication system
+that makes use of \acp{PUF} for asserting identities.
+Authentication is the act of verifying a person's or entity's identity through some identifying
+feature, which proves, that they are, who they say they are. \cite[][p. 398]{Basavala2012}
+
+In today's electronic access control systems, digital keys are used for authentication.
+They are stored in databases and assigned to a physical entity like a person's
+fingerprint or a smart card.
+This approach can be problematic, as the digital key is not directly bound to
+the physical object. If an attacker were to gain access to the key,
+they could use it to create a copy of the physical entity
+and gain access. \cite[][p. 81]{Gao2020}
+
+A solution to this might be \acp{PUF}, which are physical devices, instead of
+digitally stored keys.
+During manufacturing, certain uncontrollable production tolerances lead to
+each device differing slightly from every other.
+This introduces unique characteristics and a certain variability and randomness into every \ac{PUF},
+which can be used to create a unique fingerprint of every device without the need for a digital key.
+While the variation is measurable, it is considered impractical to create an identical physical copy of
+a \ac{PUF}, because it is deemed impossible to gain full control of the
+manufacturing tolerances to imitate the behavior of another \ac{PUF} device. \cite[][p. 81]{Gao2020}
+
+The physical characteristics of \acp{PUF} have to be measured to be able to infer an identity from them.
+This is done using a \ac{CRP}. The challenge is some input given to the \ac{PUF}, which uses it to generate an output (the response),
+leveraging its unique characteristics. For the same challenge, each individual \ac{PUF} will therefore generate a different response.
+By previously generating and recording specific \acp{CRP} or using neural networks to evaluate a response to a
+given challenge, the authenticity of a given \ac{PUF} can be established. \cite[][p. 81]{Gao2020}
+
+The goal of the research project, that this thesis is part of, is to create an authentication system that can be used as an
+electronic locking system for physical access protection of office buildings or other secure facilities.
+The thesis focuses on the infrastructure behind the challenge-response based authentication system.
+This includes specifying a protocol for communication between the components and developing a backend for generating
+and sending challenges to the \ac{PUF} and verifying its responses.
+The thesis is not concerned with the design of the \ac{PUF} modules themselves.
+
+\subsection{Research Questions}
+\label{sec:research_questions}
+
+It is not possible to formulte specific research questions about the different components of the infrastructure from the beginning,
+as it is not yet known at this point, what the infrastructure will look like.
+However, looking at the overall project, this thesis aims to answer the following question, which is closely
+related to the problem statement and title:
+
+\begin{quote}
+      \emph{RQ1: What does the infrastructure behind an authentication system using \acp{PUF} for physical access protection look like?}
+\end{quote}
+
+This question is answered by using literature research to understand the fundamentals behind these systems and
+gaining knowledge about the current state of scientific research as a basis for the design.
+
+As the implementation of a prototype is also part of the thesis, a second overarching question can be asked:
+
+\begin{quote}
+      \emph{RQ2: How can a functional prototype for the proposed infrastructure concept be implemented?}
+\end{quote}
+
+There is another aspect to this thesis, which is the evaluation of the proposed solution in the context of
+existing concepts and research on the topic.
+After answering these questions, the design and implementation should be evaluated to understand possible shortcomings
+of the proposed solution and solidify the results.
+
+\subsection{Methodology}
+\label{sec:methodology}
+
+To achieve the research goal of designing and implementing an infrastructure,
+each of the sections are approached differently.
+
+In the fundamentals section, qualitative literature research is used to gain insight into the current
+state of scientific research and build a wide basis of knowledge that can be used for the conceptualization and implementation
+of the infrastructure.
+As there are is a broad range of topics to cover, no full systematic literature review is conducted in the fundamentals section.
+
+The main sources for literature are be the EBSCO Discovery Service, IEEE Xplore, the ACM Digital Library, Springer Link and Google Scholar.
+These search engines and databases cover the most important sources for scientific literature in the field.
+The first step will be to gain a good understanding of \ac{PUF} related concepts.
+From there, search terms are developed dynamically depending on the required knowledge.
+Titles and abstracts of the most cited and relevant papers are scanned to find the papers
+and books providing the most relevant information.
+Additionally, if current review articles are found for a given topic,
+snowballing might be used to find additional relevant information.
+
+After building the fundamental knowledge basis, a systematic literature review of the most relevant scientific literature about
+PUF-based authentication protocols is conducted.
+The methodology for this review is based on the guidelines for conducting literature reviews in the information systems field
+proposed by \citeauthor*{Brocke2009} in \cite{Brocke2009}. The exact approach is outlined in section \ref{sec:review_methodology}.
+
+In the next step, the insights gained from the literature review are used to design and implement the protocol and supporting infrastructure.
+Next, a concept is created based on the knowledge gained from literature research.
+Existing solutions for each part of the infrastructure are evaluated based on the requirements of this thesis.
+
+The goal for the implementation section of the thesis is to create a prototype.
+Therefore, a language capable of rapid prototyping like Python is most likely
+selected. Some components of the finished system, like the neural networks and \acp{PUF},
+are not part of this thesis. Because of this, they are not going to be part of the prototype implementation and
+will be simulated in some way. Additionally, tests are implemented to evaluate the finished prototype and to better understand
+possible edge cases.
+
+\subsection{Structure}
+\label{sec:structure}
+
+In section \ref{sec:fundamentals}, fundamental concepts of \ac{PUF} are explained.
+First, this includes the definition of basic terms and description of basic concepts (\ref{sec:puf_def_of_terms}).
+Statistical considerations of PUFs are examined (\ref{sec:statistical_considerations}) and the different types
+of PUF are classified (\ref{sec:classification}). Next some examples of popular PUF implementations
+are presented (\ref{sec:puf_implementations}). Concluding the fundamentals section,
+central concepts of PUF-based authentication are examined (\ref{sec:puf_authentication}) and additional
+applications for PUFs are presented (\ref{sec:puf_applications}).
+
+In section \ref{sec:review}, a literature review of existing PUF-based authentication protocols is conducted.
+It consists of specifying the methodology of the review process (\ref{sec:review_methodology}), presenting, which articles were chosen
+for review (\ref{sec:review_collected_articles}), analyzing the collected literature (\ref{sec:review_analysis}) and a discussion of the results (\ref{sec:review_results}).
+
+In section \ref{sec:implementation}, a prototype for an authentication protocol is implemented.
+This includes the selection of a protocol (\ref{sec:imp_selection}), the design of the protocol (\ref{sec:imp_design}) and a presentation of
+the proposed solution (\ref{sec:imp_solution}).
+
+Finally, the thesis is concluded (\ref{sec:conclusion}) with an evaluation and results and an outlook on future research topics.

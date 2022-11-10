@@ -1,0 +1,6 @@
+[submodule "research-proposal"]
+	path = research-proposal
+	url = https://github.com/luispflamminger/bachelor-thesis-research-proposal.git
+[submodule "implementation"]
+	path = implementation
+	url = https://github.com/luispflamminger/puf-authentication-protocol.git

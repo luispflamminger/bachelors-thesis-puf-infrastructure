@@ -1,0 +1,58 @@
+%-----------------------------------
+% Meta Informationen zur Arbeit
+%-----------------------------------
+
+% Autor
+\newcommand{\myAutor}{Luis Pflamminger}
+
+% Titel der Arbeit
+\newcommand{\myTitel}{An Infrastructure for a Challenge-Response based Authentication System using Physical Unclonable Functions}
+
+% Betreuer
+\newcommand{\myBetreuer}{Prof. Dr. Bernd Ulmann}
+
+% Lehrveranstaltung
+%\newcommand{\myLehrveranstaltung}{Web \& Social Media Analytics}
+
+% Matrikelnummer
+\newcommand{\myMatrikelNr}{538276}
+
+% Ort
+\newcommand{\myOrt}{Düsseldorf}
+
+% Datum der Abgabe
+\newcommand{\leadingzero}[1]{\ifnum #1<10 0\the#1\else\the#1\fi}
+\newcommand{\todayISO}{\the\year-\leadingzero{\month}-\leadingzero{\day}}
+\newcommand{\myAbgabeDatum}{\todayISO}
+
+% Semesterzahl
+\newcommand{\mySemesterZahl}{6}
+
+% Name der Hochschule
+\newcommand{\myHochschulName}{FOM University of Applied Sciences for\\Economics \& Management}
+
+% Standort der Hochschule
+\newcommand{\myHochschulStandort}{Düsseldorf}
+
+% Studiengang
+\newcommand{\myStudiengang}{Wirtschaftsinformatik - Business Information Systems}
+
+% Art der Arbeit
+\newcommand{\myThesisArt}{Bachelor's Thesis}
+
+% Zu erlangender akademische Grad
+\newcommand{\myAkademischerGrad}{Bachelor of Science (B.Sc.)}
+
+% Firma
+\newcommand{\myFirma}{Deutsche Telekom AG}
+
+
+\ifdefined\FOMEN
+    %Englisch
+    \entrue
+    \usepackage[english]{babel}
+\else
+    %Deutsch
+    \detrue
+    \usepackage[ngerman]{babel}
+\fi

@@ -1,0 +1,456 @@
+\newpage
+\section{Review of Existing PUF-based Authentication Protocols}
+\label{sec:review}
+
+\subsection{Methodology for the Literature Review}
+\label{sec:review_methodology}
+
+To be able to conceptualize a protocol and the surrounding infrastructure, a review of the existing literature on
+\ac{PUF}-based challenge-response authentication protocols is conducted.
+In \cite{Brocke2009}, \citeauthor*{Brocke2009} propose guidelines for conducting literature reviews
+in the information systems field. A summary of the five-step framework can be found in \ref{sec:appendix_brocke}.
+
+Steps one and two of the framework are not necessary in the context of a bachelor's thesis, as the scope has been
+defined in section \ref{sec:introduction} and fundamentals have been laid out extensively in section \ref{sec:fundamentals}.
+During the research of fundamental topics, it became clear, that defining the authentication protocol is central to answering \emph{RQ1}.
+Therefore, the following search string was developed:
+
+\begin{quote}
+    \emph{(physical unclonable function OR puf OR physically unclonable function) AND (authentication OR challenge response OR challenge-response) AND (protocol)}
+\end{quote}
+
+The databases all have slightly different syntax requirements for search strings, so the actual strings used
+differ a bit from this one. The exact strings are shown in \ref{sec:appendix_search_strings}.
+
+The search string was applied to IEEEXplore, ACM and Google Scholar and restricted to document titles.
+IEEExplore yielded 53 results. Most of them are centered around lightweight PUF-based authentication protocols for \ac{IoT} applications.
+Results were ordered by number of citations and evaluated by their titles and abstracts.
+Some articles were deemed irrelevant and thus not considered. An example for this are \cite{Zhang2021}
+and \cite{Yu2022},as they propose PUF-based authentication for distributed systems using blockchain technology,
+which is out of scope for this thesis.
+
+Next the same search was conducted in the ACM Digital Library. This yielded only three results, none of which were relevant.
+
+To fill in the gaps, the same search was conducted using Google Scholar. This yielded 104 results, most of which were
+irrelevant or already contained in the IEEExplore search results.
+From this search, only articles that were well-cited, very recent or offered interesting new perspectives were considered.
+This resulted in eight results across different publishers, namely Elsevier, Springer and MDPI.
+Backward and forward search was not used to further increase the number of papers, as the sample size was
+already large enough for the purposes of this review.
+
+\subsection{Reviewed Articles}
+\label{sec:review_collected_articles}
+
+Table \ref{tbl:review_summary} shows an overview of the papers used, source database, number of citations and year published.
+As analyzing all articles in depth would be too time-consuming, a subset of the most relevant results was selected beforehand.
+During this process, articles with a higher number of citations were preferred. Additionally,
+because this thesis is part of a research project, concerned with creating a physical access protection system using PUF-based authentication,
+literature proposed for similar purposes was preferred.
+Lastly, it was important that a wide variety of approaches was included. To ensure this,
+if two papers had a similar approach, the one with more citations was preferred.
+
+\begin{table}[H]
+    \centering
+    \caption{Summary of reviewed papers}
+    \label{tbl:review_summary}
+    \begin{tabular}{|l|c|c|l|c|}
+        \hline
+        \textbf{Article}                                         & \textbf{Citations} & \textbf{Year} & \textbf{Database} & \textbf{Section}            \\
+        \hline\hline
+        \citeauthor*{Majzoobi2012} \cite{Majzoobi2012}           & 124                & 2012          & IEEExplore        & \ref{sec:review_protocol_1} \\
+        \hline\citeauthor*{Gope2018} \cite{Gope2018}             & 103                & 2018          & IEEExplore        & \ref{sec:review_protocol_2} \\
+        \hline\citeauthor*{Chatterjee2019} \cite{Chatterjee2019} & 95                 & 2019          & IEEExplore        & \ref{sec:review_protocol_3} \\
+        \hline\citeauthor*{Braeken2018} \cite{Braeken2018}       & 78                 & 2018          & Google Scholar    & \ref{sec:review_protocol_4} \\
+        \hline\citeauthor*{Bansal2020} \cite{Bansal2020}         & 48                 & 2020          & IEEExplore        & \ref{sec:review_protocol_5} \\
+        \hline\citeauthor*{Zhu2019} \cite{Zhu2019}               & 19                 & 2019          & Google Scholar    & \ref{sec:review_protocol_6} \\
+        \hline\citeauthor*{Jiang2019} \cite{Jiang2019}           & 10                 & 2019          & IEEExplore        & \ref{sec:review_protocol_7} \\
+        \hline\citeauthor*{Gope2022} \cite{Gope2022}             & 9                  & 2022          & IEEExplore        & \ref{sec:review_protocol_8} \\
+        \hline\citeauthor*{Hristea2019} \cite{Hristea2019}       & 4                  & 2019          & Google Scholar    & \ref{sec:review_protocol_9} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Analysis of the collected Literature}
+\label{sec:review_analysis}
+
+Next, each of the papers is analyzed.
+The focus of analysis was put on a couple of central questions:
+\begin{itemize}
+    \item What is the goal of the protocol and what problem does it solve?
+    \item What requirements to the underlying infrastructure (hardware, databases) does the protocol have?
+    \item What kinds of attacks does the protocol aim to prevent?
+    \item Is the protocol a good solution for the research questions posed in section \ref{sec:research_questions}
+\end{itemize}
+
+\subsubsection{Slender PUF Protocol by \citeauthor*{Majzoobi2012}}
+\label{sec:review_protocol_1}
+
+This protocol requires the use of a PUF with a specific statistical property called the
+strict PUF avalanche criterion.
+It describes PUFs, which behave in a way, that any bit-flip in the challenge will result in half of
+the response bits to flip. To achieve this, the protocol uses a PUF consisting of eight individual
+Arbiter PUFs connected through XOR logic gates, which improves the statistical properties to fulfill
+this criterion. \cite{Majzoobi2012}
+
+As a strong PUF, it has an exponentially large set of CRPs, which limits attacks by recording previously
+used \acp{CRP} (replay attacks), because the same challenge does not have to be used multiple times.
+This method is also used in the basic authentication protocol discussed in section \ref{sec:basic_challenge_response_protocol}, where
+CRPs are deleted from the database after usage.
+This safeguard alone does not protect against machine learning attacks, where an untrusted third-party
+can use previously recorded CRPs to train a model of the PUF. This model learns the response behavior
+and potentially allows an attacker to calculate the appropriate response to a future challenge.
+This protocol aims to make this kind of attack impossible \cite[][p. 34f]{Majzoobi2012}.
+
+The protocol assumes that the verifier knows the relationship of challenges and responses for each
+instance through a compact model of the PUF, which has been trained during the enrollment phase
+and is stored in a database on the verifiers side. The model can be trained with as many CRPs as necessary,
+because the PUF can be directly evaluated. After enrollment, the physical access points
+that allow direct evaluation, need to be disabled to prevent potential attackers with physical access
+from evaluating the PUF directly and and building a model. This is done by blowing a fuse to disable the
+external pins used for access to the PUF. After this, the PUF can only be accessed through a controller on the
+device, which adheres to the protocol specifications and prevents direct readouts.
+The only other way to obtain knowledge about the challenge-response behavior
+at this point would be by opening the PUF, which would likely change its characteristics. \cite{Majzoobi2012}
+
+In the paper, three types of attacks on this protocol are discussed.
+The first is a PUF modeling attack, where an attacker trains a model on previously
+recorded CRPs to try and imitate a PUF instance. The basic PUF authentication protocol
+does not protect against this kind of attack, as the full challenges and responses are
+exposed during the authentication process. This protocol mitigates this risk, by not directly
+exposing responses. Instead, only substrings with a random starting index are exposed.
+There is still a way for an attacker to create a model by guessing the substring each time,
+but the amount of CRPs required to successfully build a model increases dramatically
+which greatly reduces the risk. Of course, this attack vector would have to be analyzed
+much more closely before deploying a system using this protocol. \cite{Majzoobi2012}
+
+The second is a random guessing attack.
+The paper gives concrete figures for the probability of such an attack being successful.
+For example, a protocol implementation with a response length of 1024 bits, substring length of 256
+bits and Hamming authentication threshold of 76 would only give a $10^-11$ chance of a successful guess. \cite{Majzoobi2012}
+
+The paper also discuss attacks that compromise the randomness of the seed by impersonating
+either verifier or prover, but these are deemed to be fixable depending on the implementation. \cite{Majzoobi2012}
+
+The main benefits of this protocol include the resiliency against ML attacks, the robustness
+against noise in PUF responses without the need for traditional expensive error correction. \cite{Majzoobi2012}
+
+\subsubsection{Lightweight Anonymous Protocol for RFID Systems by \citeauthor*{Gope2018}}
+\label{sec:review_protocol_2}
+
+This protocol was developed for using PUFs as a cryptographic primitive for
+entity authentication in IoT using RFID technology.
+A typical RFID system involves an RFID tag, a reader and a backend server.
+The protocol requires the tag to consist of a micro controller and a tamper-proof PUF with
+intrinsic random variations. It also assumes a secure connection between the reader and the backend. \cite{Gope2018}
+
+There are many security issues and attack vectors with traditional RFID systems.
+One problem with typical RFID tags is, that they threaten the user's privacy,
+because identifying information stored on the tag can be retrieved without immediate
+access to the device and without need for authentication by the other party.
+This allows tracking the location of users.
+Attacks against forward secrecy are another problem. As the communication channel in RFID
+is insecure, an eavesdropper can record all traffic, although it is usually encrypted.
+If at some point in the future, the encryption is broken, all previously recorded communication
+can now be accessed by the attacker.
+Another problem is a desynchronization attack, where a third party blocks messages between
+reader and tag, to desynchronize communication. In many classical RFID authentication protocols,
+the secret is exchanged frequently to provide forward secrecy. If an attacker blocks the acknowledgement
+from the server, that the secret was successfully changed, the tag does not know which secret to use.
+This will cause a denial of service for that tag.
+Additional attacks include impersonation attacks, physical attacks, where information is retrieved
+by reading the physical memory on the tag, or cloning attacks, where a copy of the tag is created. \cite{Gope2018}
+
+This protocol aims to protect against these attacks. For example, PUFs can introduce anonymity and protect the privacy of users.
+Mutual authentication between server and tag is used to protect against impersonation attacks and location tracking.
+The researchers analyzed many previously proposed authentication schemes and improved upon them.
+Additionally, the protocol exhibits resilience against \ac{DoS} attacks and
+forward secrecy. It does not require secret keys to be stored on the tag and does not require
+computationally expensive operation on the backend side, which makes it scalable. \cite{Gope2018}
+
+\subsubsection{Protocol without explicit CRPs in Verifier Database by \citeauthor*{Chatterjee2019}}
+\label{sec:review_protocol_3}
+
+This protocol focuses on a PUF-based authentication solution for a network of distributed IoT
+devices, that does not require CRPs to be stored in a database
+on the verifier's side. This is important, because in all of the previously
+described protocols, exposure of the database is a high security risk.
+The use of \ac{IBE} and keyed hash functions allows this protocol to
+only require the verifier to store a single key in its storage \cite[][p. 1f]{Chatterjee2019}.
+\ac{IBE} is a type of public key encryption, where the public key can be any string \cite[][p. 8]{Chatterjee2011}.
+This differs from regular \ac{PKI}, where the keys have to have a specific length and
+format, dictated by the encryption system (e.g. AES). \cite[][p. 3]{Chatterjee2011}
+
+Protecting that single key is much easier than ensuring security for an entire database.
+The protocol is designed, so that a prover does not have to store a key and does not need
+to do expensive computational work. The protocol allows for an unlimited number of
+authentications using the same prover \cite[][p. 2f]{Chatterjee2019}.
+The paper mathematically proves, that the protocol is resistant against eavesdropping attacks. \cite[][p. 8]{Chatterjee2019}
+
+Requirements include, that each prover has to have a PUF module with intrinsic random variations
+and some additional mathematical and cryptographic modules for scalar multiplication,
+pairing operations and cryptographic hashing.
+The verifier is required to be able to calculate a keyed hash function.  \cite[][p. 1f]{Chatterjee2019}
+
+
+% If needed, this protocol can easily be described, as prosa description of steps is given on page 4
+
+
+\subsubsection{Protocol for IoT by \citeauthor*{Braeken2018}}
+\label{sec:review_protocol_4}
+
+This protocol was developed for IoT applications. It aims to solve problems with a previously
+published protocol and is thus developed to protect against \ac{MITM}, \ac{DoS},
+impersonation and replay attacks. Additionally it offers mutual authentication, which means
+that both the node and the server prove their identity to each other.
+The protocol focuses on power efficiency and low computational cost \cite[][p. 1f, 8]{Braeken2018}.
+It relies on storing a large amount of CRPs in a database on the verifier side and
+requires a strong PUF \cite[][p. 4]{Braeken2018}.
+In addition to simple authentication, it also allows the communication of two nodes
+with each other, even though a central verification server is still needed. \cite[][p. 3f]{Braeken2018}
+
+During enrollment, CRPs are shared between prover and verifier and stored in the database.
+After authentication, a public and private key pair are generated. Public keys can be shared
+with other nodes, with the server acting as a trusted party facilitating the exchange. \cite[][p. 4]{Braeken2018}
+
+
+\subsubsection{Lightweight Protocol for V2G by \citeauthor*{Bansal2020}}
+\label{sec:review_protocol_5}
+
+This protocol is also developed for IoT applications. More specifically, it is designed to be used
+in a vehicle smart grid ecosystem, which would allow to tightly integrate electric cars into the power grid
+and use their batteries for energy trading and load management, enabling a more efficient use of the grid's
+energy. This approach is also called \ac{V2G} and would help to manage the ever increasing power demand world
+wide. However, the communication between the grid and vehicles is a privacy and security concern, because
+a lot of sensitive information is exchanged between the parties, which an attacker could compromise. This
+could lead to imbalanced energy transactions or privacy violations. Physical access to devices is also
+easy, because vehicles are usually parked for a long time without supervision.
+PUFs are used here as a means of tamper-proofing and protection against physical attacks, as no keys
+need to be stored. Tampering likely changes the characteristic of the PUF and cloning is impossible. \cite[][p. 7234]{Bansal2020}
+
+The system consists of three parties, the vehicle, an aggregator (charging station) and the power grid.
+Both the aggregators and the vehicles have PUF modules, as both entities need to be authenticated
+with privacy and security.
+Mutual authentication is required between grid and aggregator, as well as vehicle and aggregator, to ensure
+a secure exchange of encryption keys, which can be used for further communication.
+To protect privacy, the keys are generated using the PUF during each authentication run and pseudonyms are used
+for identifying vehicles to protect their information. \cite[][p. 7234f]{Bansal2020}
+Only one challenge response pair needs to be stored on the grid server for every vehicle.
+It achieves this with significantly reduced computational overhead compared to similar protocols for V2G in the field. \cite[][p. 7244]{Bansal2020}
+
+There are four central security goals of the protocol.
+Messages need to be confidential, so only authorized entities can access the information.
+The integrity of messages needs to be ensured, so aggregators and the grid can know, if a message has been altered or
+compromised in any way. The identity of vehicle owners has to be kept hidden from an attacker even when eavesdropping.
+Mutual authentication is also a requirement to prevent impersonation attacks and false energy transfer \cite[][p. 7237]{Bansal2020}.
+The paper formally proves resiliency against man-in-the-middle attacks, impersonation attacks, replay attacks and
+physical attacks. It is additionally able to provide mutual authentication, protection of identity, message integrity
+and security of session keys. \cite[][p. 7243]{Bansal2020}
+
+\subsubsection{Lightweight mutual RFID protocol by \citeauthor*{Zhu2019}}
+\label{sec:review_protocol_6}
+
+This protocol is another attempt at creating a mutual authentication protocol for RFID systems.
+It focuses on the same problems and goals as \cite{Gope2018}, which were discussed
+in section \ref{sec:review_protocol_2}, and also makes the same assumptions about the infrastructure \cite[][p. 1, 5]{Zhu2019}.
+Because the paper was published after \cite{Gope2018}, it identifies some weaknesses of that protocol and
+many other proposed implementations in the RFID space and tries to improve on them.
+Specifically, it identifies an issue with the protection against desynchronization attacks,
+where a tag can run out of pseudo-identities that are used for authentication, if communication
+is denied by an attacker too many times. This leads to the tag needing to be re-enrolled.
+This protocol is able to correct that flaw. \cite[][p. 4]{Zhu2019}
+Another drawback to the protocol in \cite{Gope2018} is, that it requires active RFID tags, which have an
+internal power source, whereas this protocol is able to be implemented with passive tags. \cite[][p. 18]{Zhu2019}
+
+The paper provides proofs, that the protocol is secure against a large number of attacks, including
+universal untraceability of tags, ensurance of forward secrecy, secure mutual authentication,
+resilience against desynchronization attacks, resiliency against physical and cloning attacks and immunity
+to modeling attacks \cite[][p. 12-15]{Zhu2019}.
+All of these attacks are very relevant in an RFID setting.
+It is also able to do this more efficiently both in space complexity and bandwidth requirements and
+comes close to other protocols in computational complexity.
+The protocol is considered to be scalable. \cite[][p. 16]{Zhu2019}
+
+\subsubsection{Two-Factor protocol by \citeauthor*{Jiang2019}}
+\label{sec:review_protocol_7}
+
+A new approach is introduced here, which has not been discussed in any other paper considered here.
+This protocol combines PUF-based authentication with a password that the user enters,
+to create a \ac{2FA} authentication protocol.
+It is designed to be used in IoT, specifically \ac{IoV}, for managing vehicles and
+automating intelligent route planing. \cite[][p. 195]{Jiang2019}
+
+As with \cite{Bansal2020}, PUFs are a solid foundation for security in vehicles,
+because they are good at preventing physical attacks, which is a big issue
+with cars that are left unattended for long periods of time.
+The combination with a password ensures, that a vehicle can only be authenticated if the owner
+or a different trusted party is present. \cite[][p. 195]{Jiang2019}
+
+The architecture of the protocol involves three parties, a data center which manages the information, users which
+receive data from sensors and statistical data used for route planning from the data center, and the vehicle
+sensors which collect real-time traffic data. It involves three phases, including system
+setup, registration and login/authentication \cite[][p. 197]{Jiang2019}.
+The protocol needs to be able to protect data including the vehicles
+location or driving data, like speed and fuel consumption, to ensure privacy and traffic safety.
+It also needs to protect against attackers injecting false information about external conditions,
+threatening the safety of passengers. \cite[][p. 195f]{Jiang2019}
+
+The paper proves that the protocol successfully implements mutual authentication, providing anonymity.
+Vehicles are not identifiable or traceable, as no easily identifiable information is sent.
+The protocol is secure against physical attacks because of the PUF-based nature.
+The paper also claims that the protocol is secure against impersonation and desynchronization attacks,
+but does not specifically argue that point.
+Only one CRP per entity has to be stored by the server, which is another security benefit. \cite[][p. 199f]{Jiang2019}
+
+
+\subsubsection{Protocol level approach to prevent ML attacks by \citeauthor*{Gope2022}}
+\label{sec:review_protocol_8}
+
+This protocol is aimed at IoT systems in the medical field.
+The main focus is to provide a protocol which protects against machine learning attacks on PUFs.
+The architecture of the systems includes several medical IoT devices like wearable health sensors or
+clinical systems, which communicate with a central IoT gateway. This gateway talks to a service provider
+over the internet, who provides the authentication server, information database and analysis systems.
+As with many of the other papers, the wireless nature of \ac{IoMT} devices opens the system up to a
+number of attacks, such as replay, man-in-the-middle, impersonation, physical and guessing attacks.
+Additionally modeling attacks are a big threat. \cite[][p. 1971f]{Gope2022}
+
+The proposed protocol aims to improve upon several previously proposed protocols including \cite{Majzoobi2012},
+which is part of this review. \citeauthor*{Gope2022} criticize it, because it does not provide sufficient protection
+against replay and impersonation attacks \cite[][p. 1972]{Gope2022}.
+This protocol uses a special type of PUF, called \ac{OPUF}, which changes its behavior after each session,
+making modelling entirely impractical.
+Benefits of the protocol offer mutual authentication preserving privacy, prevention of modelling attacks,
+good scalability, prevention of man-in-the-middle and replay attacks \cite[][p. 1972]{Gope2022}. It also provides forward
+secrecy and prevents physical attacks. These security characteristics are argued and verified through security
+simulation software \cite[][p. 1979]{Gope2022}.
+
+\subsubsection{Destructive private mutual RFID protocol by \citeauthor*{Hristea2019}}
+\label{sec:review_protocol_9}
+
+% References 19 and 13 in this paper are concerned with comprehensive security analysis of RFID, could be interesting
+% for seperate section
+This protocol is another attempt at a mutual authentication protocol for RFID systems \cite[][p. 331]{Hristea2019}.
+It assumes the same architecture as \cite{Zhu2019} and \cite{Gope2018}, consisting of a tag, reader and
+server component. The main threats this protocol is trying to solve are impersonation and tracking
+of tags. The main benefit this paper offers, is that it is stateful, meaning that it allows a
+tag to have persistent state, which can be updated and shared with the reader, while also providing
+resilience against physical attacks, mutual authentication and forward secrecy. \cite[][p. 332]{Hristea2019}
+It is also scalable and able to prevent desynchronization attacks.
+The security of the protocol is proven using a privacy model for RFID protocols. \cite[][p. 340f]{Hristea2019}
+
+% Uses PUFs to prevent physical attacks revealing the internal secret
+% Destructive privacy, no identification possible by untrusted parties due to mutual authentication
+
+\subsection{Discussion of Results}
+\label{sec:review_results}
+
+In this section, the results of the literature review are discussed.
+
+The methodology used for collecting the relevant literature to be reviewed is described in detail in section \ref{sec:review_methodology}.
+The database queries with the respective search strings lead to a set of papers which were mostly very recent.
+Almost all papers were published between 2018 and 2022, with one outlier, \cite{Majzoobi2012}, published in 2012.
+An important criteria for the selection of papers was also the number of citations, as this was used as a measure of relevance
+in the field. Having a lot of citations does not prove that the paper is well received, as it could also be used as a "negative example"
+by other researchers. This possibility was not further investigated, and might be a weak point of this review.
+Additionally, almost all papers included an extensive set of references to existing protocols, that were not found by the methodology.
+This could mean, that they are either too old, did not include the relevant search terms in the title or had only few citations.
+
+Some articles even referenced other articles that were included in the set of reviewed papers.
+In \cite{Zhu2019}, \citeauthor*{Zhu2019} outlined a number of security flaws with the protocol proposed in \cite{Gope2018},
+including a lack of protection against desynchronization attacks and improvements on power efficiency.
+In \cite{Gope2022}, \citeauthor*{Gope2022} critized the protocol proposed by \citeauthor*{Majzoobi2012} in 2012,
+mentioning its lack of protection against replay and impersonation attacks.
+This again suggests, that the set of selected papers is quite relevant.
+
+The reviewed articles provided a diverse set of different interpretations on a challenge-response protocols,
+with varying requirements, intended applications, focuses and security strengths or weaknesses.
+
+The articles focus two main application areas: RFID and IoT. IoT is further categorized in general IoT applications
+\ac{IoMT} and \ac{IoV} which consists of applications for traffic management, as well as \ac{V2G}.
+The varying applications lead to a number of different underlying architectures.
+Protocols focused on RFID are typically based on a three layer architecture, including the RFID tags, the readers and
+a backend server \cite{Gope2018} \cite{Zhu2019}.
+\cite{Gope2022} provided a unique approach, where devices talk to an IoT gateway, which is connected to an external service
+provider over the internet for authentication.
+\ac{V2G} also has an interesting architecture, using charging stations as a communication endpoint for the IoT devices,
+which then talk to a backend server.
+The wide variety of devices, which can be secured with PUF, like cars, medical devices and RFID tags, also highlights the
+versatility of PUF technology.
+
+Looking at the different types of PUF required by the protocols, it is surprising to see, that many protocols don't have
+a specific requirement for a PUF implementation.
+This suggests, that the PUF implementation is actually not as relevant to the protocols and infrastructure as previously assumed.
+Some papers on the other hand include a requirement for strong PUFs \cite{Gope2018} \cite{Zhu2019}, while others
+require a certain set of statistical properties \cite{Majzoobi2012} or a specific \ac{OPUF} implementation \cite{Gope2022}.
+The loose requirements of many protocols do not make the choice of PUF irrelevant. There are generally strict statistical requirements for
+PUFs used in authentication, which have been touched on in section \ref{sec:fuzzy_identification}.
+Some protocols only provide support for ideal PUFs which are assumed to have perfect statistical properties,
+but do not actually exist in the real world. Near perfect PUF robustness can be achieved through extensive
+error correction using e.g. fuzzy extractors, but this is computationally expensive. \cite{Dodis2004}
+
+On the verifier side, there are many approaches to managing the identity of provers.
+\cite{Majzoobi2012} provides the use of a lightweight model of the PUF used to verify
+responses. In \cite{Zhu2019}, only one \ac{CRP} is stored in the database at any time and a new
+\ac{CRP} is agreed on between prover and verifier on each authentication run.
+In \cite{Chatterjee2019}, a method is proposed, that does not require the verifier to store any CRPs.
+
+All papers strongly focus on the security aspects of their protocols, as it is crucial in providing a
+secure authentication system.
+Table \ref{tbl:review_results} shows an in-depth overview of the security related features of each protocol.
+For interpreting these results correctly, it is important to consider, that the security of each protocol
+is interpreted without extensive knowledge in the field of cyber security and cryptography.
+The table should therefore not be viewed as an actual representation of the security features of each protocol,
+but rather, as an overview over which features were explicitly proven to be present.
+As most papers used some kind of security framework for proofs, there is a high probability, that
+some of these properties were implicitly proven in a non obvious way. These kinds of proofs could not
+be taken into account, which means that some protocols might actually be more secure than the table suggests.
+
+\begin{table}[H]
+    \caption{Results of the Literature Review from a Security Perspective}
+    \label{tbl:review_results}
+    \begin{small}
+        \begin{adjustwidth}{-0.5cm}{}
+            \begin{center}
+                \begin{tabular}{|l|c|c|c|c|c|c|c|c|c|}
+                    \hline
+                    Paper                                 & \cite{Majzoobi2012}         & \cite{Gope2018}             & \cite{Chatterjee2019}       & \cite{Braeken2018}          & \cite{Bansal2020}           & \cite{Zhu2019}              & \cite{Jiang2019}            & \cite{Gope2022}             & \cite{Hristea2019}          \\
+                    \hline Section                        & \ref{sec:review_protocol_1} & \ref{sec:review_protocol_2} & \ref{sec:review_protocol_3} & \ref{sec:review_protocol_4} & \ref{sec:review_protocol_5} & \ref{sec:review_protocol_6} & \ref{sec:review_protocol_7} & \ref{sec:review_protocol_8} & \ref{sec:review_protocol_9} \\
+                    \hline \hline Use Case                & Any                         & RFID                        & IoT                         & IoT                         & V2G                         & RFID                        & IoV                         & IoMT                        & RFID                        \\
+                    \hline Required PUF                   & Any*                        & Strong                      & Strong                      & PUF-FSM                     & N                           & Any                         & Any                         & OPUF                        & Any                         \\
+                    \hline Handles Noisy PUF resp.        & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  &                             & \checkmark                  & \checkmark                  & \checkmark                  &                             \\
+                    \hline \hline Machine Learning Attack & \checkmark                  &                             &                             &                             &                             & \checkmark                  &                             & \checkmark                  &                             \\
+                    \hline Random Guessing Attack         & \checkmark                  & \checkmark                  & \checkmark                  &                             &                             & \checkmark                  &                             &                             &                             \\
+                    \hline Desynchronization Attack       &                             & \checkmark                  &                             &                             &                             & \checkmark                  & ?                           & \checkmark                  & \checkmark                  \\
+                    \hline Denial of Service Attack       &                             & \checkmark                  &                             & \checkmark                  &                             & \checkmark                  &                             & ?                           &                             \\
+                    \hline Impersonation Attack           & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & ?                           & \checkmark                  \\
+                    \hline Physical Attack                & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  \\
+                    \hline Cloning Attack                 & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  \\
+                    \hline Mutual Authentication          &                             & \checkmark                  &                             &                             & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  \\
+                    \hline Anonymity                      &                             &                             &                             &                             & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  & \checkmark                  \\
+                    \hline Forward Secrecy                &                             & \checkmark                  &                             &                             &                             & \checkmark                  &                             & \checkmark                  & \checkmark                  \\
+                    \hline Scalable                       &                             & \checkmark                  &                             &                             &                             & \checkmark                  &                             & ?                           & \checkmark                  \\
+                    \hline Security Proof                 & AM                          & AM                          & AE                          & A                           & AM                          & A                           & A                           & AS                          & A                           \\
+                    \hline
+                \end{tabular}
+            \end{center}
+        \end{adjustwidth}
+        \begin{flushleft}
+            \vspace{0.2em}
+            * PUF must fit the strict PUF avalanche criterion \newline
+            \checkmark = Proven to be secure against attack or implement feature \newline
+            ? = Claimed but not proven \newline
+            A = Argumentative, M = Mathematical, S = Simulation, E = Experiment, N = Not specified
+        \end{flushleft}
+    \end{small}
+\end{table}
+
+All papers proved the security of their protocol in some way. Methods used for this include
+argumentative proofs with established frameworks like Session-Key Security or the Universal Composability Framework \cite{Chatterjee2019},
+mathematical proofs showing the negligible chances of a successful attack through probabilistic calculations \cite{Gope2018}, experimental
+proofs using actual hardware \cite{Chatterjee2019}, or the use of software simulations \cite{Gope2022}.
+An important distinguishing feature between protocols is mutual authentication.
+It means, that not only the entity proves their identity to the server, but also the other way around.
+This is a central requirement for privacy and anonymity, as it ensures, that entities only have to share relevant identifying
+information with a party they trust. This makes it useful for preventing location tracking in RFID systems.
+In regards to security, the table shows a clear winner in terms of being able to prove the most security related features,
+which is \cite{Zhu2019}, published by \citeauthor*{Zhu2019} in 2019.
